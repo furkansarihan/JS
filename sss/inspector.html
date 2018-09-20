@@ -99,18 +99,12 @@ function init() {
 
 // tab data
 var tabs = [];
-
 // inspector.html sends a message to sss-helper (extension)ere
 // extension returnes list of doms as a respond
-// http://krasimirtsonev.com/blog/article/Send-message-from-web-page-to-chrome-extensions-background-script
 function getDoms(){
-    //var event = document.createEvent('Event');
-    //event.initEvent('whereisdoms');
-    //document.dispatchEvent(event);
-        
     console.log("Message sending...");
         // The ID of the extension we want to talk to.
-        var editorExtensionId = "bjloackbmeialfgffmdmoajebndoclan";
+        var editorExtensionId = "bjloackbmeialfgffmdmoajebndoclan"; // this could be change
         var url = "https://github.com";
         // Make a simple request:
         chrome.runtime.sendMessage(editorExtensionId, {openUrlInEditor: url},
@@ -123,10 +117,10 @@ function getDoms(){
         });
     console.log("Message sended...");
 }
-
 function fillDom(){
     var combo = document.getElementById("tabs");
     combo.innerHTML = "";
+
     for (let i = 0; i < tabs.length; i++) {
         var will = '<option value="'+i+'">'+tabs[i]['title']+'</option>';
         combo.innerHTML += will;
@@ -134,9 +128,15 @@ function fillDom(){
 }
 
 function importDom(){
-
+    var combo = document.getElementById("tabs");
+    var tab = combo.options[combo.selectedIndex].value;
+    console.log(combo.selectedIndex);
+    var dom = document.createElement('div');
+    dom.innerHTML = tab.trim();
+    // initilaize the inspector with spsific dom
+    document.innerHTML = "";
+    inspect(document.body, init);
 }
-
 </script>
 <p><input type=file multiple onChange='fileSelect(this)' />
 </p>
